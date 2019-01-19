@@ -5,7 +5,7 @@ date: 2019-01-19
 ---
 ## The application
 
-Consider the simple [spring boot](https://spring.io/projects/spring-boot) java app below:
+Consider the simple [spring boot](https://spring.io/projects/spring-boot){:target="_blank"} java app below:
 
 ```java
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ dependencies {
 }
 ```
 
-Notice that we are using the dependency `micrometer-registry-prometheus` which informs [micrometer](http://micrometer.io/) that the metrics backend we intend to use is [Prometheus](https://prometheus.io/). 
+Notice that we are using the dependency `micrometer-registry-prometheus` which informs [micrometer](http://micrometer.io/){:target="_blank"} that the metrics backend we intend to use is [Prometheus](https://prometheus.io/){:target="_blank"}. 
 
 ## The Exception
 Now run the application using `gradle bootrun`and monitor the logs.
@@ -113,7 +113,7 @@ java.lang.IllegalArgumentException: Prometheus requires that all meters with the
         at java.lang.Thread.run(Thread.java:748) [na:1.8.0_191]
 ```
 
-The exception is because the [ScheduledMethodMetrics](https://github.com/micrometer-metrics/micrometer/blob/v1.0.7/micrometer-spring-legacy/src/main/java/io/micrometer/spring/scheduling/ScheduledMethodMetrics.java#L73-L75) aspect and [TimedAspect](https://github.com/micrometer-metrics/micrometer/blob/v1.0.7/micrometer-core/src/main/java/io/micrometer/core/aop/TimedAspect.java#L72-L78) are both trying to time the same method. `ScheduledMethodMetrics` creates timer `timer.sayHi` with no tags and then `TimedAspect` tries to create a timer with the same name but with additional `class` and `method` tags. The metric exposed by `http://localhost:8080/prometheus` actuator endpoint has no tags and looks like below:
+The exception is because the [ScheduledMethodMetrics](https://github.com/micrometer-metrics/micrometer/blob/v1.0.7/micrometer-spring-legacy/src/main/java/io/micrometer/spring/scheduling/ScheduledMethodMetrics.java#L73-L75){:target="_blank"} aspect and [TimedAspect](https://github.com/micrometer-metrics/micrometer/blob/v1.0.7/micrometer-core/src/main/java/io/micrometer/core/aop/TimedAspect.java#L72-L78){:target="_blank"} are both trying to time the same method. `ScheduledMethodMetrics` creates timer `timer.sayHi` with no tags and then `TimedAspect` tries to create a timer with the same name but with additional `class` and `method` tags. The metric exposed by `http://localhost:8080/prometheus` actuator endpoint has no tags and looks like below:
 
 ```
 # HELP timer_sayHi_seconds_max Timer of @Scheduled task
@@ -129,7 +129,7 @@ timer_sayHi_seconds{quantile="0.99",} 2.62144E-4
 ```
 
 ## The Workaround(s)
-- Upgrading to micrometer `1.0.8` or above will get rid of the exception. This is due to a [catch](https://github.com/micrometer-metrics/micrometer/blob/v1.0.8/micrometer-core/src/main/java/io/micrometer/core/aop/TimedAspect.java#L80-L82) block added in TimedAspect to ignore any exception. However, in this case, the timer will not have the `class` or `method` tags added by the TimedAspect. Choose this workaround if you don't care about those tags
+- Upgrading to micrometer `1.0.8` or above will get rid of the exception. This is due to a [catch](https://github.com/micrometer-metrics/micrometer/blob/v1.0.8/micrometer-core/src/main/java/io/micrometer/core/aop/TimedAspect.java#L80-L82){:target="_blank"} block added in TimedAspect to ignore any exception. However, in this case, the timer will not have the `class` or `method` tags added by the TimedAspect. Choose this workaround if you don't care about those tags
 - Another workaround is to add the same class and method tags that will be added by the TimedAspect to the `@Timed` annotation
 
 ```java
@@ -160,4 +160,4 @@ However in this case, the `timer_sayHi_seconds_count` count gets doubled. Choose
 
 ## Conclusion
 
-The micrometer team is working on [rewriting](https://github.com/micrometer-metrics/micrometer/pull/500) the TimedAspect. Once that is complete, the workarounds won't be needed
+The micrometer team is working on [rewriting](https://github.com/micrometer-metrics/micrometer/pull/500){:target="_blank"} the TimedAspect. Once that is complete, the workarounds won't be needed
