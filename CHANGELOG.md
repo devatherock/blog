@@ -1,5 +1,9 @@
 # Changelog
 
+## 2021-10-30
+### Added
+- [#2](https://github.com/devatherock/blog/issues/2): Changelog file to excluded list
+
 ## 2021-03-16
 ### Added
 - [Jekyll](https://jekyllrb.com/) cheatsheet
