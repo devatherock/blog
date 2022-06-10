@@ -12,4 +12,4 @@ Refer [this](https://kbroman.org/simple_site/pages/local_test.html) article or [
 - `gem install jekyll`
 - `jekyll serve`
 
-The local site will be accessible at [http://localhost:4000/blog](http://localhost:4000/blog)
+The local site will be accessible at [http://localhost:4000/blog/](http://localhost:4000/blog/)

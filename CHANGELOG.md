@@ -1,5 +1,9 @@
 # Changelog
 
+## 2022-06-10
+### Added
+- `git diff` to git cheatsheet
+
 ## 2022-05-24
 ### Added
 - Git cheatsheet
