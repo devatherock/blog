@@ -1,5 +1,9 @@
 # Changelog
 
+## 2022-08-07
+### Added
+- Cheatsheets for `jenkins`, `groovy` and gpg key generation
+
 ## 2022-06-10
 ### Added
 - `git diff` to git cheatsheet
